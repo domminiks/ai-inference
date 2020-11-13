@@ -1,0 +1,21 @@
+{
+  "model": {
+    "name": "imagenet",
+    "version": 1,
+    "backend": {
+      "type": "tensorflow",
+      "parameters": {
+        "input": {
+          "type": "image",
+          "labels": ["images"]
+        },
+        "output": {
+          "labels": ["output"]
+        }
+      }
+    },
+    "script": {
+      "folder": "utils"
+    }
+  }
+}

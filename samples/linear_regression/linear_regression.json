@@ -1,0 +1,22 @@
+{
+  "model": {
+    "name": "linear_regression",
+    "version": 1,
+    "backend": {
+      "type": "sklearn",
+      "parameters": {
+        "input": {
+          "type": "number",
+          "dtype": "float32",
+          "shape": [1, 1]
+        },
+        "output": {
+          "shape": [1, 1]
+        }
+      }
+    },
+    "script": {
+      "folder": "utils"
+    }
+  }
+}

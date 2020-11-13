@@ -1,0 +1,9 @@
+Flask==1.1.2
+gunicorn==20.0.4
+ml2rt==0.2.0
+redis==3.5.3
+redisai==1.0.1
+sklearn==0.0
+scikit-image==0.17.2
+numpy==1.19.2
+opencv-python==4.4.0.44

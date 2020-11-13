@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: model-add
+  labels:
+    app: model-add
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: model-add
+  template:
+    metadata:
+      labels:
+        app: model-add
+    spec:
+      volumes:
+      - name: models
+        persistentVolumeClaim:
+          claimName: models
+          readOnly: false
+      containers:
+      - name: model-add
+        image: domminiks/ai:model-add-v1.0.0
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8000 
+        volumeMounts:
+        - name: models
+          mountPath: /models

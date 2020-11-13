@@ -1,0 +1,183 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redisai
+  labels:
+    app: redisai
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redisai
+  template:
+    metadata:
+      labels:
+        app: redisai
+    spec:
+      containers:
+      - name: redisai
+        image: redisai/redisai
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 6379
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: file-manager
+  labels:
+    app: file-manager
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: file-manager
+  template:
+    metadata:
+      labels:
+        app: file-manager
+    spec:
+      volumes:
+      - name: models
+        persistentVolumeClaim:
+          claimName: models
+          readOnly: false
+      containers:
+      - name: file-manager
+        image: domminiks/ai:file-manager-v1.0.0
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8000 
+        volumeMounts:
+        - name: models
+          mountPath: /models
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: inference
+  labels:
+    app: inference
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: inference
+  template:
+    metadata:
+      labels:
+        app: inference
+    spec:
+      volumes:
+      - name: models
+        persistentVolumeClaim:
+          claimName: models
+          readOnly: false
+      containers:
+      - name: inference
+        image: domminiks/ai:inference-v1.0.0
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8000 
+        volumeMounts:
+        - name: models
+          mountPath: /models
+        - name: models
+          mountPath: /inference/models
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: model-add
+  labels:
+    app: model-add
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: model-add
+  template:
+    metadata:
+      labels:
+        app: model-add
+    spec:
+      volumes:
+      - name: models
+        persistentVolumeClaim:
+          claimName: models
+          readOnly: false
+      containers:
+      - name: model-add
+        image: domminiks/ai:model-add-v1.0.0
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8000 
+        volumeMounts:
+        - name: models
+          mountPath: /models
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: model-remove
+  labels:
+    app: model-remove
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: model-remove
+  template:
+    metadata:
+      labels:
+        app: model-remove
+    spec:
+      containers:
+      - name: model-remove
+        image: domminiks/ai:model-remove-v1.0.0
+        imagePullPolicy: Always
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: reverse-proxy
+  labels:
+    app: reverse-proxy
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: reverse-proxy
+  template:
+    metadata:
+      labels:
+        app: reverse-proxy
+    spec:
+      containers:
+      - name: reverse-proxy
+        image: domminiks/ai:reverse-proxy-v1.0.0
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tensor-remove
+  labels:
+    app: tensor-remove
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: tensor-remove
+  template:
+    metadata:
+      labels:
+        app: tensor-remove
+    spec:
+      containers:
+      - name: tensor-remove
+        image: domminiks/ai:tensor-remove-v1.0.0
+        imagePullPolicy: Always
+---

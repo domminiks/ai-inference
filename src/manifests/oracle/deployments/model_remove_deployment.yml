@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: model-remove
+  labels:
+    app: model-remove
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: model-remove
+  template:
+    metadata:
+      labels:
+        app: model-remove
+    spec:
+      containers:
+      - name: model-remove
+        image: domminiks/ai:model-remove-v1.0.0
+        imagePullPolicy: Always

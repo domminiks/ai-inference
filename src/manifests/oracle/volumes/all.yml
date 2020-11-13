@@ -1,0 +1,38 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: models
+provisioner: oracle.com/oci-fss
+parameters:
+  mntTargetId: <mntTargetId>
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+ name: models
+spec:
+ storageClassName: models
+ capacity:
+  storage: 50Gi
+ accessModes:
+  - ReadWriteMany
+ mountOptions:
+  - nosuid
+ nfs:
+  server: <serverIP>
+  path: <path>
+  readOnly: false
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: models
+spec:
+  storageClassName: models
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 50Gi
+  volumeName: models
+---

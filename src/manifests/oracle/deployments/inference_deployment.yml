@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: inference
+  labels:
+    app: inference
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: inference
+  template:
+    metadata:
+      labels:
+        app: inference
+    spec:
+      volumes:
+      - name: models
+        persistentVolumeClaim:
+          claimName: models
+          readOnly: false
+      containers:
+      - name: inference
+        image: domminiks/ai:inference-v1.0.0
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8000 
+        volumeMounts:
+        - name: models
+          mountPath: /models
+        - name: models
+          mountPath: /inference/models

@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tensor-remove
+  labels:
+    app: tensor-remove
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tensor-remove
+  template:
+    metadata:
+      labels:
+        app: tensor-remove
+    spec:
+      containers:
+      - name: tensor-remove
+        image: domminiks/ai:tensor-remove-v1.0.0
+        imagePullPolicy: Always

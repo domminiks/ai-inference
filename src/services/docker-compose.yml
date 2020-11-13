@@ -1,0 +1,68 @@
+version: '3'
+
+services:
+  inference:
+    env_file:
+      - model_variables.env
+    container_name: inference
+    restart: always
+    build: ./inference
+    image: domminiks/ai:inference-v1.0.0
+    volumes:
+      - /Users/dominguite/Documents/Unifei/TCC/code/models:/inference/models
+    # depends_on:
+    #   - redisai
+
+  file-manager:
+    env_file:
+      - model_variables.env
+    container_name: file-manager
+    restart: always
+    build: ./file_manager
+    image: domminiks/ai:file-manager-v1.0.0
+    volumes:
+      - /Users/dominguite/Documents/Unifei/TCC/code/models:/models
+
+  model-add:
+    env_file:
+      - model_variables.env
+    container_name: model-add
+    restart: always
+    build: ./model_manager/model_add
+    image: domminiks/ai:model-add-v1.0.0
+    volumes:
+      - /Users/dominguite/Documents/Unifei/TCC/code/models:/models
+    # depends_on:
+    #   - redisai
+
+  model-remove:
+    container_name: model-remove
+    restart: always
+    build: ./model_manager/model_remove
+    image: domminiks/ai:model-remove-v1.0.0
+    # depends_on:
+    #   - redisai
+
+  tensor-remove:
+    container_name: tensor-remove
+    restart: always
+    build: ./tensor_manager/tensor_remove
+    image: domminiks/ai:tensor-remove-v1.0.0
+    # depends_on:
+    #   - redisai
+
+  nginx:
+    container_name: nginx
+    restart: always
+    build: ./reverse_proxy
+    image: domminiks/ai:reverse-proxy-v1.0.0
+    ports:
+      - "80:80"
+    # depends_on:
+    #   - inference
+    #   - file-manager
+
+  redisai:
+    container_name: redisai
+    image: redisai/redisai  
+    restart: always

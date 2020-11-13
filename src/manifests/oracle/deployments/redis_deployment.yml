@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redisai
+  labels:
+    app: redisai
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redisai
+  template:
+    metadata:
+      labels:
+        app: redisai
+    spec:
+      containers:
+      - name: redisai
+        image: redisai/redisai
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 6379

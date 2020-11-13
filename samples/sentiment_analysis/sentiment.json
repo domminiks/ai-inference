@@ -1,0 +1,22 @@
+{
+  "model": {
+    "name": "sentiment",
+    "version": 1,
+    "backend": { 
+      "type": "sklearn",
+      "parameters": {
+        "input": {
+          "type": "text",
+          "dtype": "float64",
+          "shape": [1, 97657]
+        },
+        "output": {
+          "shape": [1, 2]
+        }
+      }
+    },
+    "script": {
+      "folder": "utils"
+    }
+  }
+}

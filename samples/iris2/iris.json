@@ -1,0 +1,22 @@
+{
+  "model": {
+    "name": "iris",
+    "version": 2,
+    "backend": {
+      "type": "sklearn",
+      "parameters": {
+        "input": {
+          "type": "number",
+          "dtype": "float32",
+          "shape": [1, 4]
+        },
+        "output": {
+          "shape": [1, 2]
+        }
+      }
+    },
+    "script": {
+      "folder": "resources"
+    }    
+  }
+}
